@@ -22,5 +22,6 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': 'error',
+    'no-unused-vars': 'off',
   },
 }
