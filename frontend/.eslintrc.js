@@ -4,8 +4,8 @@ module.exports = {
     node: true,
     browser: true,
   },
-  parser: 'babel-eslint',
-  plugins: ['react', 'prettier'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['react', 'prettier', '@typescript-eslint'],
   parserOptions: {
     version: 2018,
     sourceType: 'module',
@@ -18,6 +18,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:prettier/recommended',
     'prettier/react',
+    'prettier/@typescript-eslint',
   ],
   rules: {
     'prettier/prettier': 'error',
