@@ -15,7 +15,7 @@ const ProductScreen = ({ match }: any) => {
     }
 
     fetchProduct()
-  }, [])
+  }, [match])
 
   if (!product) return <div>not found a product</div>
 
