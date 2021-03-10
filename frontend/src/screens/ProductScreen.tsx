@@ -9,7 +9,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 
 const ProductScreen = ({ history, match }: any) => {
-  const [qty, setQty] = useState<string>('')
+  const [qty, setQty] = useState<string>('1')
   const dispatch = useDispatch()
   const productDetails = useSelector((state: RootState) => state.productDetails)
   const { loading, product, error } = productDetails

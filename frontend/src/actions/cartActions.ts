@@ -10,7 +10,7 @@ interface CartAddItemAction {
 
 export type CartActionTypes = CartAddItemAction
 
-export const addToCart = (id: string, qty: string) => async (dispatch: Dispatch, getState: any) => {
+export const addToCart = (id: string, qty: number) => async (dispatch: Dispatch, getState: any) => {
   const { data } = await axios.get(`/api/products/${id}`)
 
   dispatch({
