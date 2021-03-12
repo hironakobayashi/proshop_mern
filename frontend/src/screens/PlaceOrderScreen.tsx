@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Button, Col, ListGroup, Row, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
@@ -19,7 +19,7 @@ const PlaceOrderScreen = ({ history }: { history: History }) => {
 
   //  Calculate prices
   cart.itemsPrice = addDecimals(
-    cart.cartItems?.reduce((acc, item) => acc + item.price * item.qty, 0)
+    cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   )
   cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100)
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)))
@@ -60,31 +60,31 @@ const PlaceOrderScreen = ({ history }: { history: History }) => {
               <h2>Shipping</h2>
               <p>
                 <strong>Address:</strong>
-                {cart.shippingAddress?.address}, {cart.shippingAddress?.city},{' '}
-                {cart.shippingAddress?.postalCode}, {cart.shippingAddress?.country}
+                {cart.shippingAddress.address}, {cart.shippingAddress.city},{' '}
+                {cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
               </p>
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>PaymentMethod</h2>
+              <h2>Payment Method</h2>
               <strong>Method: </strong>
               {cart.paymentMethod}
             </ListGroup.Item>
 
             <ListGroup.Item>
               <h2>Order Items</h2>
-              {cart.cartItems?.length === 0 ? (
+              {cart.cartItems.length === 0 ? (
                 <Message>Your cart is empty</Message>
               ) : (
                 <ListGroup variant="flush">
-                  {cart.cartItems?.map((item, index) => (
+                  {cart.cartItems.map((item, index) => (
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1}>
                           <Image src={item.image} alt={item.name} fluid rounded />
                         </Col>
                         <Col>
-                          <Link to={`/product/${item.product}`} />
+                          <Link to={`/product/${item.product}`}>{item.name}</Link>
                         </Col>
                         <Col md={4}>
                           {item.qty} x ${item.price} = ${item.qty * item.price}
@@ -135,7 +135,7 @@ const PlaceOrderScreen = ({ history }: { history: History }) => {
                 <Button
                   type="button"
                   className="btn-block"
-                  disabled={cart.cartItems?.length === 0}
+                  disabled={cart.cartItems.length === 0}
                   onClick={placeOrderHandler}
                 >
                   Place Order

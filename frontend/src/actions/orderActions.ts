@@ -8,14 +8,14 @@ import {
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
 } from '../constants/orderConstants'
-import { IOrder, IUserInfo } from '../interfaces'
+import { IOrder, IOrderDetails, IUserInfo } from '../interfaces'
 
 interface CreateOrderRequestAction {
   type: typeof ORDER_CREATE_REQUEST
 }
 interface CreateOrderSuccessAction {
   type: typeof ORDER_CREATE_SUCCESS
-  payload: IUserInfo
+  payload: IOrderDetails
 }
 interface CreateOrderFailAction {
   type: typeof ORDER_CREATE_FAIL
@@ -62,7 +62,7 @@ interface OrderDetailsRequestAction {
 }
 interface OrderDetailsSuccessAction {
   type: typeof ORDER_DETAILS_SUCCESS
-  payload: any
+  payload: IOrderDetails
 }
 interface OrderDetailsFailAction {
   type: typeof ORDER_DETAILS_FAIL

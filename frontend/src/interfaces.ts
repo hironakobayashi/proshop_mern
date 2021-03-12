@@ -50,3 +50,22 @@ export interface IOrder {
   taxPrice: number
   totalPrice: number
 }
+
+export interface IOrderDetails {
+  user: {
+    name: string
+    email: string
+  }
+  _id: string
+  orderItems: Array<ICartItem>
+  shippingAddress: IAddress
+  paymentMethod: string
+  itemsPrice: number
+  shippingPrice: number
+  taxPrice: number
+  totalPrice: number
+  isPaid: boolean
+  isDelivered: boolean
+  paidAt?: Date
+  deliveredAt?: Date
+}

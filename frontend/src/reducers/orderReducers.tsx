@@ -8,17 +8,43 @@ import {
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
 } from '../constants/orderConstants'
+import { IOrder, IOrderDetails } from '../interfaces'
+
+const initialOrder = {
+  _id: '',
+  isPaid: false,
+  isDelivered: false,
+  orderItems: [],
+  shippingAddress: {
+    address: '',
+    city: '',
+    postalCode: '',
+    country: '',
+  },
+  paymentMethod: '',
+  itemsPrice: 0,
+  shippingPrice: 0,
+  taxPrice: 0,
+  totalPrice: 0,
+  user: {
+    name: '',
+    email: '',
+  },
+  paidAt: undefined,
+  deliveredAt: undefined,
+}
 
 const initialOrderCreateState = {
   loading: false,
   error: '',
+  order: initialOrder,
   success: false,
 }
 export type OrderCreateState = {
-  loading?: boolean
-  order?: any
-  error?: string
-  success?: boolean
+  loading: boolean
+  order: IOrderDetails
+  error: string
+  success: boolean
 }
 
 export const orderCreateReducer: Reducer<OrderCreateState, CreateOrderActionTypes> = (
@@ -27,25 +53,25 @@ export const orderCreateReducer: Reducer<OrderCreateState, CreateOrderActionType
 ) => {
   switch (action.type) {
     case ORDER_CREATE_REQUEST:
-      return { loading: true }
+      return { ...state, loading: true }
     case ORDER_CREATE_SUCCESS:
-      return { loading: false, success: true, order: action.payload }
+      return { ...state, loading: false, success: true, order: action.payload }
     case ORDER_CREATE_FAIL:
-      return { loading: false, error: action.payload }
+      return { ...state, loading: false, error: action.payload }
     default:
       return state
   }
 }
 
 const initialOrderDetailsState = {
-  loading: false,
+  loading: true,
   error: '',
+  order: initialOrder,
 }
 export type OrderDetailsState = {
-  loading?: boolean
-  error?: string
-  orderItems?: any
-  shippingAddress?: any
+  loading: boolean
+  error: string
+  order: IOrderDetails
 }
 
 export const orderDetailsReducer: Reducer<OrderDetailsState, OrderDetailsActionTypes> = (
@@ -56,9 +82,9 @@ export const orderDetailsReducer: Reducer<OrderDetailsState, OrderDetailsActionT
     case ORDER_DETAILS_REQUEST:
       return { ...state, loading: true }
     case ORDER_DETAILS_SUCCESS:
-      return { loading: false, order: action.payload }
+      return { ...state, loading: false, order: action.payload }
     case ORDER_DETAILS_FAIL:
-      return { loading: false, error: action.payload }
+      return { ...state, loading: false, error: action.payload }
     default:
       return state
   }
