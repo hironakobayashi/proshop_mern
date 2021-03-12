@@ -1,26 +1,23 @@
 import { Reducer } from 'redux'
 import { CartActionTypes } from '../actions/cartActions'
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstant'
-import { ICartItem } from '../interfaces'
+import {
+  CART_ADD_ITEM,
+  CART_REMOVE_ITEM,
+  CART_SAVE_SHIPPING_ADDRESS,
+} from '../constants/cartConstant'
+import { IAddress, ICartItem } from '../interfaces'
 
 const initialCartState = {
   loading: false,
   error: '',
-  cartItems: [
-    {
-      product: '',
-      name: '',
-      image: '',
-      price: 0,
-      countInStock: 0,
-      qty: 0,
-    },
-  ],
+  cartItems: undefined,
+  shippingAddress: undefined,
 }
 export type CartState = {
   loading?: boolean
-  cartItems: ICartItem[]
+  cartItems?: ICartItem[]
   error?: string
+  shippingAddress?: IAddress
 }
 
 export const cartReducer: Reducer<CartState, CartActionTypes> = (
@@ -30,24 +27,29 @@ export const cartReducer: Reducer<CartState, CartActionTypes> = (
   switch (action.type) {
     case CART_ADD_ITEM: {
       const item = action.payload
-      const existItem = state.cartItems.find((x) => x.product === item.product)
+      const existItem = state.cartItems?.find((x) => x.product === item.product)
 
       if (existItem) {
         return {
           ...state,
-          cartItems: state.cartItems.map((x) => (x.product === existItem.product ? item : x)),
+          cartItems: state.cartItems?.map((x) => (x.product === existItem.product ? item : x)),
         }
       } else {
         return {
           ...state,
-          cartItems: [...state.cartItems, item],
+          cartItems: [...(state.cartItems || []), item],
         }
       }
     }
     case CART_REMOVE_ITEM:
       return {
         ...state,
-        cartItems: state.cartItems.filter((x) => x.product !== action.payload),
+        cartItems: state.cartItems?.filter((x) => x.product !== action.payload),
+      }
+    case CART_SAVE_SHIPPING_ADDRESS:
+      return {
+        ...state,
+        shippingAddress: action.payload,
       }
     default:
       return state

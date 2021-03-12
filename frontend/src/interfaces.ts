@@ -33,3 +33,10 @@ export interface IUserProfile {
   email: string
   isAdmin: boolean
 }
+
+export interface IAddress {
+  address: string
+  city: string
+  postalCode: string
+  country: string
+}

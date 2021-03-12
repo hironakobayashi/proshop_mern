@@ -1,7 +1,11 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstant'
-import { ICartItem } from '../interfaces'
+import {
+  CART_ADD_ITEM,
+  CART_REMOVE_ITEM,
+  CART_SAVE_SHIPPING_ADDRESS,
+} from '../constants/cartConstant'
+import { IAddress, ICartItem } from '../interfaces'
 
 interface CartAddItemAction {
   type: typeof CART_ADD_ITEM
@@ -13,7 +17,12 @@ interface CartRemoveItemAction {
   payload: string
 }
 
-export type CartActionTypes = CartAddItemAction | CartRemoveItemAction
+interface SaveShippingAddressAction {
+  type: typeof CART_SAVE_SHIPPING_ADDRESS
+  payload: IAddress
+}
+
+export type CartActionTypes = CartAddItemAction | CartRemoveItemAction | SaveShippingAddressAction
 
 export const addToCart = (id: string, qty: number) => async (dispatch: Dispatch, getState: any) => {
   const { data } = await axios.get(`/api/products/${id}`)
@@ -40,4 +49,13 @@ export const removeFromCart = (id: string) => (dispatch: Dispatch, getState: any
   })
 
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+}
+
+export const saveShippingAddress = (data: IAddress) => (dispatch: Dispatch) => {
+  dispatch({
+    type: CART_SAVE_SHIPPING_ADDRESS,
+    payload: data,
+  })
+
+  localStorage.setItem('shippingAddress', JSON.stringify(data))
 }
