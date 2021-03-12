@@ -14,6 +14,7 @@ import {
   ORDER_LIST_MY_FAIL,
   ORDER_LIST_MY_REQUEST,
   ORDER_LIST_MY_SUCCESS,
+  ORDER_LIST_MY_RESET,
 } from '../constants/orderConstants'
 import { IOrder, IOrderDetails, IPaymentResult, IUserInfo } from '../interfaces'
 
@@ -175,10 +176,14 @@ interface OrderListMyFailAction {
   type: typeof ORDER_LIST_MY_FAIL
   payload: string
 }
+interface OrderListMyResetAction {
+  type: typeof ORDER_LIST_MY_RESET
+}
 export type OrderListMyActionTypes =
   | OrderListMyRequestAction
   | OrderListMySuccessAction
   | OrderListMyFailAction
+  | OrderListMyResetAction
 
 export const listMyOrders = () => async (dispatch: Dispatch, getState: any) => {
   try {

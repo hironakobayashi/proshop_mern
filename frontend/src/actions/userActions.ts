@@ -1,8 +1,10 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
+import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 import {
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
+  USER_DETAILS_RESET,
   USER_DETAILS_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -66,6 +68,8 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
 export const logout = () => (dispatch: Dispatch) => {
   localStorage.removeItem('userInfo')
   dispatch({ type: USER_LOGOUT })
+  dispatch({ type: USER_DETAILS_RESET })
+  dispatch({ type: ORDER_LIST_MY_RESET })
 }
 
 interface UserRegisterRequestAction {
@@ -124,10 +128,14 @@ interface UserDetailsFailAction {
   type: typeof USER_DETAILS_FAIL
   payload: string
 }
+interface UserDetailsResetAction {
+  type: typeof USER_DETAILS_RESET
+}
 export type UserDetailsActionTypes =
   | UserDetailsRequestAction
   | UserDetailsSuccessAction
   | UserDetailsFailAction
+  | UserDetailsResetAction
 
 export const getUserDetails = (id: string) => async (dispatch: Dispatch, getState: any) => {
   try {
