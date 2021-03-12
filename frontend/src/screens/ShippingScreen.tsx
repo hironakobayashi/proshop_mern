@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { register } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
 import { RootState } from '../store'
 import { History } from 'history'
 import { saveShippingAddress } from '../actions/cartActions'
+import CheckoutSteps from '../components/CheckoutSteps'
 
 const ShippingScreen = ({ history }: { history: History }) => {
   const cart = useSelector((state: RootState) => state.cart)
@@ -28,6 +28,7 @@ const ShippingScreen = ({ history }: { history: History }) => {
 
   return (
     <FormContainer>
+      <CheckoutSteps step1 step2 />
       <h1>Shipping</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="address">
