@@ -11,16 +11,25 @@ import { IAddress, ICartItem } from '../interfaces'
 const initialCartState = {
   loading: false,
   error: '',
-  cartItems: undefined,
-  shippingAddress: undefined,
-  paymentMethod: undefined,
+  cartItems: [],
+  shippingAddress: {
+    address: '',
+    city: '',
+    postalCode: '',
+    country: '',
+  },
+  paymentMethod: '',
 }
 export type CartState = {
   loading?: boolean
-  cartItems?: ICartItem[]
+  cartItems: ICartItem[]
   error?: string
-  shippingAddress?: IAddress
+  shippingAddress: IAddress
   paymentMethod?: string
+  itemsPrice?: number
+  shippingPrice?: number
+  taxPrice?: number
+  totalPrice?: number
 }
 
 export const cartReducer: Reducer<CartState, CartActionTypes> = (

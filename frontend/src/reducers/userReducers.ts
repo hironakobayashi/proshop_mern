@@ -109,7 +109,7 @@ export const userDetailsReducer: Reducer<UserDetailsState, UserDetailsActionType
 const initialUserUpdateProfileState = {
   loading: false,
   error: '',
-  user: undefined,
+  userInfo: undefined,
 }
 export type UserUpdateProfileState = {
   loading?: boolean
