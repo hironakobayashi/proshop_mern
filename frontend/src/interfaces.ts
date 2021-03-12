@@ -40,3 +40,13 @@ export interface IAddress {
   postalCode: string
   country: string
 }
+
+export interface IOrder {
+  orderItems: Array<ICartItem>
+  shippingAddress: IAddress
+  paymentMethod: string
+  itemsPrice: number
+  shippingPrice: number
+  taxPrice: number
+  totalPrice: number
+}

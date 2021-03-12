@@ -5,7 +5,7 @@ import {
   CART_REMOVE_ITEM,
   CART_SAVE_PAYMENT_METHOD,
   CART_SAVE_SHIPPING_ADDRESS,
-} from '../constants/cartConstant'
+} from '../constants/cartConstants'
 import { IAddress, ICartItem } from '../interfaces'
 
 const initialCartState = {
@@ -19,17 +19,21 @@ const initialCartState = {
     country: '',
   },
   paymentMethod: '',
+  itemsPrice: 0,
+  shippingPrice: 0,
+  taxPrice: 0,
+  totalPrice: 0,
 }
 export type CartState = {
   loading?: boolean
   cartItems: ICartItem[]
   error?: string
   shippingAddress: IAddress
-  paymentMethod?: string
-  itemsPrice?: number
-  shippingPrice?: number
-  taxPrice?: number
-  totalPrice?: number
+  paymentMethod: string
+  itemsPrice: number
+  shippingPrice: number
+  taxPrice: number
+  totalPrice: number
 }
 
 export const cartReducer: Reducer<CartState, CartActionTypes> = (

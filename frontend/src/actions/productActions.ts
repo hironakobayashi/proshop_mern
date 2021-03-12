@@ -7,7 +7,7 @@ import {
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
-} from '../constants/productConstant'
+} from '../constants/productConstants'
 import { IProduct } from '../interfaces'
 
 interface ProductListRequestAction {
