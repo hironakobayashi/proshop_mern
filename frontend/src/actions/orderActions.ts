@@ -4,6 +4,9 @@ import {
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
   ORDER_CREATE_FAIL,
+  ORDER_DETAILS_FAIL,
+  ORDER_DETAILS_REQUEST,
+  ORDER_DETAILS_SUCCESS,
 } from '../constants/orderConstants'
 import { IOrder, IUserInfo } from '../interfaces'
 
@@ -48,6 +51,52 @@ export const createOrder = (order: IOrder) => async (dispatch: Dispatch, getStat
   } catch (error) {
     dispatch({
       type: ORDER_CREATE_FAIL,
+      payload:
+        error.response && error.response.data.message ? error.response.data.message : error.message,
+    })
+  }
+}
+
+interface OrderDetailsRequestAction {
+  type: typeof ORDER_DETAILS_REQUEST
+}
+interface OrderDetailsSuccessAction {
+  type: typeof ORDER_DETAILS_SUCCESS
+  payload: any
+}
+interface OrderDetailsFailAction {
+  type: typeof ORDER_DETAILS_FAIL
+  payload: string
+}
+export type OrderDetailsActionTypes =
+  | OrderDetailsRequestAction
+  | OrderDetailsSuccessAction
+  | OrderDetailsFailAction
+
+export const getOrderDetails = (id: string) => async (dispatch: Dispatch, getState: any) => {
+  try {
+    dispatch({
+      type: ORDER_DETAILS_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.get(`/api/orders/${id}`, config)
+
+    dispatch({
+      type: ORDER_DETAILS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: ORDER_DETAILS_FAIL,
       payload:
         error.response && error.response.data.message ? error.response.data.message : error.message,
     })
