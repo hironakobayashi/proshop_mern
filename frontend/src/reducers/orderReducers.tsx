@@ -1,5 +1,9 @@
 import { Reducer } from 'redux'
-import { CreateOrderActionTypes, OrderDetailsActionTypes } from '../actions/orderActions'
+import {
+  CreateOrderActionTypes,
+  OrderDetailsActionTypes,
+  OrderPayActionTypes,
+} from '../actions/orderActions'
 import {
   ORDER_CREATE_FAIL,
   ORDER_CREATE_REQUEST,
@@ -7,6 +11,10 @@ import {
   ORDER_DETAILS_FAIL,
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
+  ORDER_PAY_FAIL,
+  ORDER_PAY_REQUEST,
+  ORDER_PAY_RESET,
+  ORDER_PAY_SUCCESS,
 } from '../constants/orderConstants'
 import { IOrder, IOrderDetails } from '../interfaces'
 
@@ -85,6 +93,35 @@ export const orderDetailsReducer: Reducer<OrderDetailsState, OrderDetailsActionT
       return { ...state, loading: false, order: action.payload }
     case ORDER_DETAILS_FAIL:
       return { ...state, loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+const initialOrderPayState = {
+  loading: false,
+  error: '',
+  success: false,
+}
+export type OrderPayState = {
+  loading: boolean
+  error: string
+  success: boolean
+}
+
+export const orderPayReducer: Reducer<OrderPayState, OrderPayActionTypes> = (
+  state = initialOrderPayState,
+  action: OrderPayActionTypes
+) => {
+  switch (action.type) {
+    case ORDER_PAY_REQUEST:
+      return { ...state, loading: true }
+    case ORDER_PAY_SUCCESS:
+      return { ...state, loading: false, success: true }
+    case ORDER_PAY_FAIL:
+      return { ...state, loading: false, error: action.payload }
+    case ORDER_PAY_RESET:
+      return { ...state }
     default:
       return state
   }

@@ -51,6 +51,13 @@ export interface IOrder {
   totalPrice: number
 }
 
+export interface IPaymentResult {
+  address: string
+  status: string
+  update_time: string
+  email_address: string
+}
+
 export interface IOrderDetails {
   user: {
     name: string
@@ -68,4 +75,5 @@ export interface IOrderDetails {
   isDelivered: boolean
   paidAt?: Date
   deliveredAt?: Date
+  paymentResult?: IPaymentResult
 }

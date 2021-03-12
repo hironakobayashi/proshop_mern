@@ -7,8 +7,12 @@ import {
   ORDER_DETAILS_FAIL,
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
+  ORDER_PAY_FAIL,
+  ORDER_PAY_REQUEST,
+  ORDER_PAY_SUCCESS,
+  ORDER_PAY_RESET,
 } from '../constants/orderConstants'
-import { IOrder, IOrderDetails, IUserInfo } from '../interfaces'
+import { IOrder, IOrderDetails, IPaymentResult, IUserInfo } from '../interfaces'
 
 interface CreateOrderRequestAction {
   type: typeof ORDER_CREATE_REQUEST
@@ -97,6 +101,60 @@ export const getOrderDetails = (id: string) => async (dispatch: Dispatch, getSta
   } catch (error) {
     dispatch({
       type: ORDER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message ? error.response.data.message : error.message,
+    })
+  }
+}
+
+interface OrderPayRequestAction {
+  type: typeof ORDER_PAY_REQUEST
+}
+interface OrderPaySuccessAction {
+  type: typeof ORDER_PAY_SUCCESS
+  payload: boolean
+}
+interface OrderPayFailAction {
+  type: typeof ORDER_PAY_FAIL
+  payload: string
+}
+interface OrderPayResetAction {
+  type: typeof ORDER_PAY_RESET
+}
+export type OrderPayActionTypes =
+  | OrderPayRequestAction
+  | OrderPaySuccessAction
+  | OrderPayFailAction
+  | OrderPayResetAction
+
+export const orderPay = (orderId: string, paymentResult: IPaymentResult) => async (
+  dispatch: Dispatch,
+  getState: any
+) => {
+  try {
+    dispatch({
+      type: ORDER_PAY_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.put(`/api/orders/${orderId}/pay`, paymentResult, config)
+
+    dispatch({
+      type: ORDER_PAY_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: ORDER_PAY_FAIL,
       payload:
         error.response && error.response.data.message ? error.response.data.message : error.message,
     })
