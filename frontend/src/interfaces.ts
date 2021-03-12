@@ -73,7 +73,8 @@ export interface IOrderDetails {
   totalPrice: number
   isPaid: boolean
   isDelivered: boolean
-  paidAt?: Date
-  deliveredAt?: Date
+  paidAt?: string
+  deliveredAt?: string
+  createdAt?: string
   paymentResult?: IPaymentResult
 }

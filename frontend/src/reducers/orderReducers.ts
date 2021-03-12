@@ -2,6 +2,7 @@ import { Reducer } from 'redux'
 import {
   CreateOrderActionTypes,
   OrderDetailsActionTypes,
+  OrderListMyActionTypes,
   OrderPayActionTypes,
 } from '../actions/orderActions'
 import {
@@ -11,6 +12,9 @@ import {
   ORDER_DETAILS_FAIL,
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
+  ORDER_LIST_MY_FAIL,
+  ORDER_LIST_MY_REQUEST,
+  ORDER_LIST_MY_SUCCESS,
   ORDER_PAY_FAIL,
   ORDER_PAY_REQUEST,
   ORDER_PAY_RESET,
@@ -122,6 +126,33 @@ export const orderPayReducer: Reducer<OrderPayState, OrderPayActionTypes> = (
       return { ...state, loading: false, error: action.payload }
     case ORDER_PAY_RESET:
       return initialOrderPayState
+    default:
+      return state
+  }
+}
+
+const initialOrderListMyState = {
+  loading: false,
+  error: '',
+  orders: [],
+}
+export type OrderListMyState = {
+  loading: boolean
+  error: string
+  orders: Array<IOrderDetails>
+}
+
+export const orderListMyReducer: Reducer<OrderListMyState, OrderListMyActionTypes> = (
+  state = initialOrderListMyState,
+  action: OrderListMyActionTypes
+) => {
+  switch (action.type) {
+    case ORDER_LIST_MY_REQUEST:
+      return { ...state, loading: true }
+    case ORDER_LIST_MY_SUCCESS:
+      return { ...state, loading: false, orders: action.payload }
+    case ORDER_LIST_MY_FAIL:
+      return { ...state, loading: false, error: action.payload }
     default:
       return state
   }
