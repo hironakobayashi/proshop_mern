@@ -6,6 +6,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 
 import productRoute from './routes/productRoutes.js'
 import userRoute from './routes/userRoutes.js'
+import orderRoute from './routes/orderRoutes.js'
 
 config()
 connectDB()
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRoute)
 app.use('/api/users', userRoute)
+app.use('/api/orders', orderRoute)
 
 app.use(notFound)
 
