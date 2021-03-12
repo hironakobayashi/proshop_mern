@@ -121,7 +121,7 @@ export const orderPayReducer: Reducer<OrderPayState, OrderPayActionTypes> = (
     case ORDER_PAY_FAIL:
       return { ...state, loading: false, error: action.payload }
     case ORDER_PAY_RESET:
-      return { ...state }
+      return initialOrderPayState
     default:
       return state
   }

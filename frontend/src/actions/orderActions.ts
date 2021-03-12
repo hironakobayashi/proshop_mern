@@ -127,7 +127,7 @@ export type OrderPayActionTypes =
   | OrderPayFailAction
   | OrderPayResetAction
 
-export const orderPay = (orderId: string, paymentResult: IPaymentResult) => async (
+export const payOrder = (orderId: string, paymentResult: IPaymentResult) => async (
   dispatch: Dispatch,
   getState: any
 ) => {
