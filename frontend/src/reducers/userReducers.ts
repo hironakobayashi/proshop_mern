@@ -1,20 +1,26 @@
 import { Reducer } from 'redux'
-import { UserLoginActionTypes } from '../actions/userAction'
+import { UserLoginActionTypes } from '../actions/userActions'
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
 } from '../constants/userConstants'
+import { IUserInfo } from '../interfaces'
 
 const initialUserLoginState = {
   loading: false,
   error: '',
-  userInfo: {},
+  userInfo: {
+    name: '',
+    email: '',
+    isAdmin: false,
+    token: '',
+  },
 }
 export type UserLoginState = {
   loading?: boolean
-  userInfo?: Object
+  userInfo?: IUserInfo
   error?: string
 }
 

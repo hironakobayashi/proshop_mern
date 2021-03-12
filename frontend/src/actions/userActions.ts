@@ -6,13 +6,14 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
 } from '../constants/userConstants'
+import { IUserInfo } from '../interfaces'
 
 interface UserLoginRequestAction {
   type: typeof USER_LOGIN_REQUEST
 }
 interface UserLoginSuccessAction {
   type: typeof USER_LOGIN_SUCCESS
-  payload: Object
+  payload: IUserInfo
 }
 interface UserLoginFailAction {
   type: typeof USER_LOGIN_FAIL
@@ -53,4 +54,9 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
         error.response && error.response.data.message ? error.response.data.message : error.message,
     })
   }
+}
+
+export const logout = () => (dispatch: Dispatch) => {
+  localStorage.removeItem('userInfo')
+  dispatch({ type: USER_LOGOUT })
 }

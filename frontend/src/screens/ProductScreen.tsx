@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button, Card, Col, Form, Image, ListGroup, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Rating from '../components/Rating'
-import { listProductDetails } from '../actions/productAction'
+import { listProductDetails } from '../actions/productActions'
 import { RootState } from '../store'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -24,7 +24,7 @@ const ProductScreen = ({ history, match }: any) => {
 
   return (
     <>
-      <Link className="btn btn-light my-3" to="/">
+      <Link className="my-3 btn btn-light" to="/">
         Go Back
       </Link>
       {loading ? (

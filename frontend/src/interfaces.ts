@@ -19,3 +19,10 @@ export interface ICartItem {
   countInStock: number
   qty: number
 }
+
+export interface IUserInfo {
+  name: string
+  email: string
+  isAdmin: boolean
+  token: string
+}

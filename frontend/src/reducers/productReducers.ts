@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { ProductDetailsActionTypes, ProductListActionTypes } from '../actions/productAction'
+import { ProductDetailsActionTypes, ProductListActionTypes } from '../actions/productActions'
 import {
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
