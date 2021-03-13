@@ -8,6 +8,7 @@ import {
   USER_DETAILS_SUCCESS,
   USER_LIST_FAIL,
   USER_LIST_REQUEST,
+  USER_LIST_RESET,
   USER_LIST_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -73,6 +74,7 @@ export const logout = () => (dispatch: Dispatch) => {
   dispatch({ type: USER_LOGOUT })
   dispatch({ type: USER_DETAILS_RESET })
   dispatch({ type: ORDER_LIST_MY_RESET })
+  dispatch({ type: USER_LIST_RESET })
 }
 
 interface UserRegisterRequestAction {
@@ -234,7 +236,15 @@ interface UserListFailAction {
   type: typeof USER_LIST_FAIL
   payload: string
 }
-export type UserListActionTypes = UserListRequestAction | UserListSuccessAction | UserListFailAction
+interface UserListResetAction {
+  type: typeof USER_LIST_RESET
+  payload: string
+}
+export type UserListActionTypes =
+  | UserListRequestAction
+  | UserListSuccessAction
+  | UserListFailAction
+  | UserListResetAction
 
 export const listUsers = () => async (dispatch: Dispatch, getState: any) => {
   try {
