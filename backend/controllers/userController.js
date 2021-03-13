@@ -38,12 +38,12 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    name, 
+    name,
     email,
-    password
+    password,
   })
 
-  if(user) {
+  if (user) {
     res.status(201).json({
       _id: user._idm,
       name: user.name,
@@ -85,11 +85,11 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
-    if(req.body.password) {
+    if (req.body.password) {
       user.password = req.body.password
     }
 
-    const updatedUser =await user.save()
+    const updatedUser = await user.save()
     res.json({
       _id: updatedUser._idm,
       name: updatedUser.name,
@@ -103,4 +103,12 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 })
 
-export { authUser, registerUser, getUserProfile, updateUserProfile }
+// @desc   Get all users
+// @route  GET /api/users
+// @access Private/Admin
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({})
+  res.json(users)
+})
+
+export { authUser, registerUser, getUserProfile, updateUserProfile, getUsers }
