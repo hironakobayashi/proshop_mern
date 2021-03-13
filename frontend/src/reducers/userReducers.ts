@@ -1,6 +1,7 @@
 import { Reducer } from 'redux'
 import {
   UserDetailsActionTypes,
+  UserListActionTypes,
   UserLoginActionTypes,
   UserRegisterActionTypes,
   UserUpdateProfileActionTypes,
@@ -10,6 +11,9 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
   USER_DETAILS_SUCCESS,
+  USER_LIST_FAIL,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -132,6 +136,33 @@ export const userUpdateProfileReducer: Reducer<
       return { loading: false, success: true, userInfo: action.payload }
     case USER_UPDATE_PROFILE_FAIL:
       return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+const initialUserListState = {
+  loading: false,
+  error: '',
+  users: [],
+}
+export type UserListState = {
+  loading: boolean
+  users: Array<IUserProfile>
+  error: string
+}
+
+export const userListReducer: Reducer<UserListState, UserListActionTypes> = (
+  state = initialUserListState,
+  action: UserListActionTypes
+) => {
+  switch (action.type) {
+    case USER_LIST_REQUEST:
+      return { ...state, loading: true }
+    case USER_LIST_SUCCESS:
+      return { ...state, loading: false, users: action.payload }
+    case USER_LIST_FAIL:
+      return { ...state, loading: false, error: action.payload }
     default:
       return state
   }
