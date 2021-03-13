@@ -30,8 +30,8 @@ const initialListState = {
 }
 export type ProductListState = {
   loading: boolean
-  products?: IProduct[]
-  error?: string
+  products: IProduct[]
+  error: string
 }
 
 export const productListReducer: Reducer<ProductListState, ProductListActionTypes> = (
@@ -40,11 +40,11 @@ export const productListReducer: Reducer<ProductListState, ProductListActionType
 ) => {
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
-      return { loading: true, products: [] }
+      return { ...state, loading: true, products: [] }
     case PRODUCT_LIST_SUCCESS:
-      return { loading: false, products: action.payload }
+      return { ...state, loading: false, products: action.payload }
     case PRODUCT_LIST_FAIL:
-      return { loading: false, error: action.payload }
+      return { ...state, loading: false, error: action.payload }
     default:
       return state
   }
