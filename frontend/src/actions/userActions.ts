@@ -2,6 +2,9 @@ import axios from 'axios'
 import { Dispatch } from 'redux'
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 import {
+  USER_DELETE_FAIL,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
@@ -270,6 +273,48 @@ export const listUsers = () => async (dispatch: Dispatch, getState: any) => {
   } catch (error) {
     dispatch({
       type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message ? error.response.data.message : error.message,
+    })
+  }
+}
+
+interface UserDeleteRequestAction {
+  type: typeof USER_DELETE_REQUEST
+}
+interface UserDeleteSuccessAction {
+  type: typeof USER_DELETE_SUCCESS
+}
+interface UserDeleteFailAction {
+  type: typeof USER_DELETE_FAIL
+  payload: string
+}
+export type UserDeleteActionTypes =
+  | UserDeleteRequestAction
+  | UserDeleteSuccessAction
+  | UserDeleteFailAction
+
+export const deleteUser = (id: string) => async (dispatch: Dispatch, getState: any) => {
+  try {
+    dispatch({
+      type: USER_DELETE_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.delete(`/api/users/${id}`, config)
+
+    dispatch({ type: USER_DELETE_SUCCESS })
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_FAIL,
       payload:
         error.response && error.response.data.message ? error.response.data.message : error.message,
     })

@@ -1,5 +1,6 @@
 import { Reducer } from 'redux'
 import {
+  UserDeleteActionTypes,
   UserDetailsActionTypes,
   UserListActionTypes,
   UserLoginActionTypes,
@@ -7,6 +8,9 @@ import {
   UserUpdateProfileActionTypes,
 } from '../actions/userActions'
 import {
+  USER_DELETE_FAIL,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
@@ -166,6 +170,33 @@ export const userListReducer: Reducer<UserListState, UserListActionTypes> = (
       return { ...state, loading: false, error: action.payload }
     case USER_LIST_RESET:
       return initialUserListState
+    default:
+      return state
+  }
+}
+
+const initialUserDeleteState = {
+  loading: false,
+  error: '',
+  success: false,
+}
+export type UserDeleteState = {
+  loading: boolean
+  success: boolean
+  error: string
+}
+
+export const userDeleteReducer: Reducer<UserDeleteState, UserDeleteActionTypes> = (
+  state = initialUserDeleteState,
+  action: UserDeleteActionTypes
+) => {
+  switch (action.type) {
+    case USER_DELETE_REQUEST:
+      return { ...state, loading: true }
+    case USER_DELETE_SUCCESS:
+      return { ...state, loading: false, success: true }
+    case USER_DELETE_FAIL:
+      return { ...state, loading: false, error: action.payload }
     default:
       return state
   }
