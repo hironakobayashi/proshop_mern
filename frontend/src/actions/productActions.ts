@@ -7,6 +7,9 @@ import {
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
+  PRODUCT_DELETE_REQUEST,
+  PRODUCT_DELETE_SUCCESS,
+  PRODUCT_DELETE_FAIL,
 } from '../constants/productConstants'
 import { IProduct } from '../interfaces'
 
@@ -72,6 +75,50 @@ export const listProductDetails = (id: string) => async (dispatch: Dispatch) => 
   } catch (error) {
     dispatch({
       type: PRODUCT_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message ? error.response.data.message : error.message,
+    })
+  }
+}
+
+interface ProductDeleteRequestAction {
+  type: typeof PRODUCT_DELETE_REQUEST
+}
+interface ProductDeleteSuccessAction {
+  type: typeof PRODUCT_DELETE_SUCCESS
+}
+interface ProductDeleteFailAction {
+  type: typeof PRODUCT_DELETE_FAIL
+  payload: string
+}
+export type ProductDeleteActionTypes =
+  | ProductDeleteRequestAction
+  | ProductDeleteSuccessAction
+  | ProductDeleteFailAction
+
+export const deleteProduct = (id: string) => async (dispatch: Dispatch, getState: any) => {
+  try {
+    dispatch({
+      type: PRODUCT_DELETE_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    await axios.delete(`/api/products/${id}`, config)
+
+    dispatch({
+      type: PRODUCT_DELETE_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_DELETE_FAIL,
       payload:
         error.response && error.response.data.message ? error.response.data.message : error.message,
     })
