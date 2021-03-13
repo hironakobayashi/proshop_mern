@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Form, Row } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { getUserDetails, register } from '../actions/userActions'
+import { getUserDetails, updateUser } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { RootState } from '../store'
 import { History } from 'history'
+import { USER_UPDATE_RESET } from '../constants/userConstants'
 
 const UserEditScreen = ({ match, history }: { match: any; history: History }) => {
   const userId = match.params.id
@@ -20,18 +21,27 @@ const UserEditScreen = ({ match, history }: { match: any; history: History }) =>
   const userDetails = useSelector((state: RootState) => state.userDetails)
   const { loading, error, user } = userDetails
 
+  const userUpdate = useSelector((state: RootState) => state.userUpdate)
+  const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = userUpdate
+
   useEffect(() => {
-    if (!user || !user.name || user._id !== userId) {
-      dispatch(getUserDetails(userId))
+    if (successUpdate) {
+      dispatch({ type: USER_UPDATE_RESET })
+      history.push('/admin/userlist')
     } else {
-      setName(user.name)
-      setEmail(user.email)
-      setIsAdmin(user.isAdmin)
+      if (!user || !user.name || user._id !== userId) {
+        dispatch(getUserDetails(userId))
+      } else {
+        setName(user.name)
+        setEmail(user.email)
+        setIsAdmin(user.isAdmin)
+      }
     }
-  }, [dispatch, user])
+  }, [dispatch, user, successUpdate])
 
   const submitHandler = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
+    dispatch(updateUser({ _id: userId, name, email, isAdmin }))
   }
 
   return (
@@ -41,6 +51,8 @@ const UserEditScreen = ({ match, history }: { match: any; history: History }) =>
       </Link>
       <FormContainer>
         <h1>Edit User</h1>
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant="danger">{error}</Message>}
         {loading ? (
           <Loader />
         ) : error ? (

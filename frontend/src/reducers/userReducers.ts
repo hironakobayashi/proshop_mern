@@ -5,6 +5,7 @@ import {
   UserListActionTypes,
   UserLoginActionTypes,
   UserRegisterActionTypes,
+  UserUpdateActionTypes,
   UserUpdateProfileActionTypes,
 } from '../actions/userActions'
 import {
@@ -26,10 +27,14 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_UPDATE_FAIL,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_RESET,
   USER_UPDATE_PROFILE_SUCCESS,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_RESET,
+  USER_UPDATE_SUCCESS,
 } from '../constants/userConstants'
 import { IUserInfo, IUserProfile } from '../interfaces'
 
@@ -197,6 +202,35 @@ export const userDeleteReducer: Reducer<UserDeleteState, UserDeleteActionTypes> 
       return { ...state, loading: false, success: true }
     case USER_DELETE_FAIL:
       return { ...state, loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+const initialUserUpdateState = {
+  loading: false,
+  error: '',
+  success: false,
+}
+export type UserUpdateState = {
+  loading: boolean
+  success: boolean
+  error: string
+}
+
+export const userUpdateReducer: Reducer<UserUpdateState, UserUpdateActionTypes> = (
+  state = initialUserUpdateState,
+  action: UserUpdateActionTypes
+) => {
+  switch (action.type) {
+    case USER_UPDATE_REQUEST:
+      return { ...state, loading: true }
+    case USER_UPDATE_SUCCESS:
+      return { ...state, loading: false, success: true }
+    case USER_UPDATE_FAIL:
+      return { ...state, loading: false, error: action.payload }
+    case USER_UPDATE_RESET:
+      return initialUserUpdateState
     default:
       return state
   }
