@@ -30,7 +30,7 @@ interface ProductListRequestAction {
 }
 interface ProductListSuccessAction {
   type: typeof PRODUCT_LIST_SUCCESS
-  payload: IProduct[]
+  payload: { products: IProduct[]; pages: number; page: number }
 }
 interface ProductListFailAction {
   type: typeof PRODUCT_LIST_FAIL
@@ -41,10 +41,12 @@ export type ProductListActionTypes =
   | ProductListSuccessAction
   | ProductListFailAction
 
-export const listProducts = (keyword: string = '') => async (dispatch: Dispatch) => {
+export const listProducts = (keyword: string = '', pageNumber: string = '') => async (
+  dispatch: Dispatch
+) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST })
-    const { data } = await axios.get(`/api/products?keyword=${keyword}`)
+    const { data } = await axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`)
 
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
