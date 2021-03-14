@@ -9,6 +9,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { History } from 'history'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
+import Meta from '../components/Meta'
 
 const ProductScreen = ({ history, match }: { history: History; match: any }) => {
   const [qty, setQty] = useState<string>('1')
@@ -57,6 +58,7 @@ const ProductScreen = ({ history, match }: { history: History; match: any }) => 
         <Message variant="danger">Product Not Found</Message>
       ) : (
         <>
+          <Meta title={product.name} />
           <Row>
             <Col md={6}>
               <Image src={product.image} alt={product.name} fluid />
