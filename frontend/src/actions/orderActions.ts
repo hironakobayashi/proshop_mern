@@ -15,6 +15,9 @@ import {
   ORDER_LIST_MY_REQUEST,
   ORDER_LIST_MY_SUCCESS,
   ORDER_LIST_MY_RESET,
+  ORDER_LIST_REQUEST,
+  ORDER_LIST_FAIL,
+  ORDER_LIST_SUCCESS,
 } from '../constants/orderConstants'
 import { IOrder, IOrderDetails, IPaymentResult, IUserInfo } from '../interfaces'
 
@@ -209,6 +212,52 @@ export const listMyOrders = () => async (dispatch: Dispatch, getState: any) => {
   } catch (error) {
     dispatch({
       type: ORDER_LIST_MY_FAIL,
+      payload:
+        error.response && error.response.data.message ? error.response.data.message : error.message,
+    })
+  }
+}
+
+interface OrderListRequestAction {
+  type: typeof ORDER_LIST_REQUEST
+}
+interface OrderListSuccessAction {
+  type: typeof ORDER_LIST_SUCCESS
+  payload: Array<IOrderDetails>
+}
+interface OrderListFailAction {
+  type: typeof ORDER_LIST_FAIL
+  payload: string
+}
+export type OrderListActionTypes =
+  | OrderListRequestAction
+  | OrderListSuccessAction
+  | OrderListFailAction
+
+export const listOrders = () => async (dispatch: Dispatch, getState: any) => {
+  try {
+    dispatch({
+      type: ORDER_LIST_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.get('/api/orders', config)
+
+    dispatch({
+      type: ORDER_LIST_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: ORDER_LIST_FAIL,
       payload:
         error.response && error.response.data.message ? error.response.data.message : error.message,
     })
