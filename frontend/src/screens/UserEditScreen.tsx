@@ -37,7 +37,7 @@ const UserEditScreen = ({ match, history }: { match: any; history: History }) =>
         setIsAdmin(user.isAdmin)
       }
     }
-  }, [dispatch, user, successUpdate])
+  }, [dispatch, user, userId, history, successUpdate])
 
   const submitHandler = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
