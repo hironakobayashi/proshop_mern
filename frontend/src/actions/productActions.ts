@@ -10,6 +10,10 @@ import {
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_FAIL,
+  PRODUCT_CREATE_FAIL,
+  PRODUCT_CREATE_REQUEST,
+  PRODUCT_CREATE_SUCCESS,
+  PRODUCT_CREATE_RESET,
 } from '../constants/productConstants'
 import { IProduct } from '../interfaces'
 
@@ -119,6 +123,56 @@ export const deleteProduct = (id: string) => async (dispatch: Dispatch, getState
   } catch (error) {
     dispatch({
       type: PRODUCT_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message ? error.response.data.message : error.message,
+    })
+  }
+}
+
+interface ProductCreateRequestAction {
+  type: typeof PRODUCT_CREATE_REQUEST
+}
+interface ProductCreateSuccessAction {
+  type: typeof PRODUCT_CREATE_SUCCESS
+  payload: IProduct
+}
+interface ProductCreateFailAction {
+  type: typeof PRODUCT_CREATE_FAIL
+  payload: string
+}
+interface ProductCreateResetAction {
+  type: typeof PRODUCT_CREATE_RESET
+}
+export type ProductCreateActionTypes =
+  | ProductCreateRequestAction
+  | ProductCreateSuccessAction
+  | ProductCreateFailAction
+  | ProductCreateResetAction
+
+export const createProduct = () => async (dispatch: Dispatch, getState: any) => {
+  try {
+    dispatch({
+      type: PRODUCT_CREATE_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.post('/api/products', {}, config)
+
+    dispatch({
+      type: PRODUCT_CREATE_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_CREATE_FAIL,
       payload:
         error.response && error.response.data.message ? error.response.data.message : error.message,
     })

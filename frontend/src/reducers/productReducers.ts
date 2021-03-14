@@ -1,10 +1,15 @@
 import { Reducer } from 'redux'
 import {
+  ProductCreateActionTypes,
   ProductDeleteActionTypes,
   ProductDetailsActionTypes,
   ProductListActionTypes,
 } from '../actions/productActions'
 import {
+  PRODUCT_CREATE_FAIL,
+  PRODUCT_CREATE_REQUEST,
+  PRODUCT_CREATE_RESET,
+  PRODUCT_CREATE_SUCCESS,
   PRODUCT_DELETE_FAIL,
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
@@ -117,6 +122,48 @@ export const productDeleteReducer: Reducer<ProductDeleteState, ProductDeleteActi
       return { ...state, loading: false, success: true }
     case PRODUCT_DELETE_FAIL:
       return { ...state, loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+const initialCreateState = {
+  loading: false,
+  success: false,
+  product: {
+    _id: '',
+    name: '',
+    image: '',
+    description: '',
+    brand: '',
+    category: '',
+    price: 0,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  error: '',
+}
+export type ProductCreateState = {
+  loading: boolean
+  success: boolean
+  error: string
+  product: IProduct
+}
+
+export const productCreateReducer: Reducer<ProductCreateState, ProductCreateActionTypes> = (
+  state = initialCreateState,
+  action: ProductCreateActionTypes
+) => {
+  switch (action.type) {
+    case PRODUCT_CREATE_REQUEST:
+      return { ...state, loading: true }
+    case PRODUCT_CREATE_SUCCESS:
+      return { ...state, loading: false, success: true, product: action.payload }
+    case PRODUCT_CREATE_FAIL:
+      return { ...state, loading: false, error: action.payload }
+    case PRODUCT_CREATE_RESET:
+      return initialCreateState
     default:
       return state
   }
