@@ -23,6 +23,7 @@ import {
   USER_UPDATE_FAIL,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_RESET,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_REQUEST,
   USER_UPDATE_RESET,
@@ -191,10 +192,14 @@ interface UserUpdateProfileFailAction {
   type: typeof USER_UPDATE_PROFILE_FAIL
   payload: string
 }
+interface UserUpdateProfileResetAction {
+  type: typeof USER_UPDATE_PROFILE_RESET
+}
 export type UserUpdateProfileActionTypes =
   | UserUpdateProfileRequestAction
   | UserUpdateProfileSuccessAction
   | UserUpdateProfileFailAction
+  | UserUpdateProfileResetAction
 
 export const updateUserProfile = (user: {
   id: string
@@ -223,6 +228,12 @@ export const updateUserProfile = (user: {
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: data,
     })
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: data,
+    })
+
+    localStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
