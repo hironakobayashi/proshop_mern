@@ -5,6 +5,7 @@ import {
   ProductDeleteActionTypes,
   ProductDetailsActionTypes,
   ProductListActionTypes,
+  ProductTopRatedActionTypes,
   ProductUpdateActionTypes,
 } from '../actions/productActions'
 import {
@@ -25,6 +26,9 @@ import {
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
+  PRODUCT_TOP_FAIL,
+  PRODUCT_TOP_REQUEST,
+  PRODUCT_TOP_SUCCESS,
   PRODUCT_UPDATE_FAIL,
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_RESET,
@@ -259,6 +263,33 @@ export const productReviewCreateReducer: Reducer<
       return { ...state, loading: false, error: action.payload }
     case PRODUCT_CREATE_REVIEW_RESET:
       return initialCreateState
+    default:
+      return state
+  }
+}
+
+const initialTopRatedState = {
+  loading: false,
+  products: [],
+  error: '',
+}
+export type ProductTopRatedState = {
+  loading: boolean
+  products: IProduct[]
+  error: string
+}
+
+export const productTopRatedReducer: Reducer<ProductTopRatedState, ProductTopRatedActionTypes> = (
+  state = initialTopRatedState,
+  action: ProductTopRatedActionTypes
+) => {
+  switch (action.type) {
+    case PRODUCT_TOP_REQUEST:
+      return { ...state, loading: true }
+    case PRODUCT_TOP_SUCCESS:
+      return { ...state, loading: false, products: action.payload }
+    case PRODUCT_TOP_FAIL:
+      return { ...state, loading: false, error: action.payload }
     default:
       return state
   }
