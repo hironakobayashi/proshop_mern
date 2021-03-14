@@ -1,3 +1,12 @@
+interface IReview {
+  _id: string
+  name: string
+  rating: number
+  comment: string
+  user: string
+  createdAt: string
+}
+
 export interface IProduct {
   _id: string
   name: string
@@ -9,6 +18,7 @@ export interface IProduct {
   countInStock: number
   rating?: number
   numReviews?: number
+  reviews?: Array<IReview>
 }
 
 export interface ICartItem {

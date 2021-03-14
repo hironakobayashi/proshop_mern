@@ -1,6 +1,7 @@
 import { Reducer } from 'redux'
 import {
   ProductCreateActionTypes,
+  ProductCreateReviewActionTypes,
   ProductDeleteActionTypes,
   ProductDetailsActionTypes,
   ProductListActionTypes,
@@ -10,6 +11,10 @@ import {
   PRODUCT_CREATE_FAIL,
   PRODUCT_CREATE_REQUEST,
   PRODUCT_CREATE_RESET,
+  PRODUCT_CREATE_REVIEW_FAIL,
+  PRODUCT_CREATE_REVIEW_REQUEST,
+  PRODUCT_CREATE_REVIEW_RESET,
+  PRODUCT_CREATE_REVIEW_SUCCESS,
   PRODUCT_CREATE_SUCCESS,
   PRODUCT_DELETE_FAIL,
   PRODUCT_DELETE_REQUEST,
@@ -42,6 +47,7 @@ const initialListState = {
       countInStock: 0,
       rating: 0,
       numReviews: 0,
+      reviews: [],
     },
   ],
 }
@@ -81,6 +87,7 @@ const initialDetailsState = {
     countInStock: 0,
     rating: 0,
     numReviews: 0,
+    reviews: [],
   },
 }
 export type ProductDetailsState = {
@@ -146,6 +153,7 @@ const initialCreateState = {
     countInStock: 0,
     rating: 0,
     numReviews: 0,
+    reviews: [],
   },
   error: '',
 }
@@ -188,6 +196,7 @@ const initialUpdateState = {
     countInStock: 0,
     rating: 0,
     numReviews: 0,
+    reviews: [],
   },
   error: '',
 }
@@ -210,6 +219,35 @@ export const productUpdateReducer: Reducer<ProductUpdateState, ProductUpdateActi
     case PRODUCT_UPDATE_FAIL:
       return { ...state, loading: false, error: action.payload }
     case PRODUCT_UPDATE_RESET:
+      return initialCreateState
+    default:
+      return state
+  }
+}
+
+const initialReviewCreateState = {
+  loading: false,
+  success: false,
+  error: '',
+}
+export type ProductReviewCreateState = {
+  loading: boolean
+  success: boolean
+  error: string
+}
+
+export const productReviewCreateReducer: Reducer<
+  ProductReviewCreateState,
+  ProductCreateReviewActionTypes
+> = (state = initialReviewCreateState, action: ProductCreateReviewActionTypes) => {
+  switch (action.type) {
+    case PRODUCT_CREATE_REVIEW_REQUEST:
+      return { ...state, loading: true }
+    case PRODUCT_CREATE_REVIEW_SUCCESS:
+      return { ...state, loading: false, success: true }
+    case PRODUCT_CREATE_REVIEW_FAIL:
+      return { ...state, loading: false, error: action.payload }
+    case PRODUCT_CREATE_REVIEW_RESET:
       return initialCreateState
     default:
       return state
