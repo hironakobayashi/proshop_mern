@@ -7,8 +7,8 @@ export interface IProduct {
   category: string
   price: number
   countInStock: number
-  rating: number
-  numReviews: number
+  rating?: number
+  numReviews?: number
 }
 
 export interface ICartItem {

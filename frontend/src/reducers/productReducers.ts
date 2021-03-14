@@ -4,6 +4,7 @@ import {
   ProductDeleteActionTypes,
   ProductDetailsActionTypes,
   ProductListActionTypes,
+  ProductUpdateActionTypes,
 } from '../actions/productActions'
 import {
   PRODUCT_CREATE_FAIL,
@@ -19,6 +20,10 @@ import {
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
+  PRODUCT_UPDATE_FAIL,
+  PRODUCT_UPDATE_REQUEST,
+  PRODUCT_UPDATE_RESET,
+  PRODUCT_UPDATE_SUCCESS,
 } from '../constants/productConstants'
 import { IProduct } from '../interfaces'
 
@@ -163,6 +168,48 @@ export const productCreateReducer: Reducer<ProductCreateState, ProductCreateActi
     case PRODUCT_CREATE_FAIL:
       return { ...state, loading: false, error: action.payload }
     case PRODUCT_CREATE_RESET:
+      return initialCreateState
+    default:
+      return state
+  }
+}
+
+const initialUpdateState = {
+  loading: false,
+  success: false,
+  product: {
+    _id: '',
+    name: '',
+    image: '',
+    description: '',
+    brand: '',
+    category: '',
+    price: 0,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  error: '',
+}
+export type ProductUpdateState = {
+  loading: boolean
+  success: boolean
+  error: string
+  product: IProduct
+}
+
+export const productUpdateReducer: Reducer<ProductUpdateState, ProductUpdateActionTypes> = (
+  state = initialUpdateState,
+  action: ProductUpdateActionTypes
+) => {
+  switch (action.type) {
+    case PRODUCT_UPDATE_REQUEST:
+      return { ...state, loading: true }
+    case PRODUCT_UPDATE_SUCCESS:
+      return { ...state, loading: false, success: true, product: action.payload }
+    case PRODUCT_UPDATE_FAIL:
+      return { ...state, loading: false, error: action.payload }
+    case PRODUCT_UPDATE_RESET:
       return initialCreateState
     default:
       return state
